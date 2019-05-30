@@ -21,7 +21,7 @@
     "ace-builds": "^1.4.3",
     "firebase": "^6.0.2",
     "install": "^0.12.2",
-    "jquery": "^3.3.1",
+    "jquery": "^3.4.1",
     "marked": "^0.6.2",
     "tslint-config-airbnb": "^5.11.1"
   }

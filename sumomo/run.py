@@ -1,14 +1,8 @@
-
-#
-#
-#
-
-# comment out
-# from pegpy.origami.arare import compile
-
-from flask import Flask, render_template, send_file, request, Response
+from flask import Flask, render_template, send_file, request, Response, jsonify
 from pathlib import Path
 
+import subprocess
+from subprocess import Popen
 
 def rootPath():
     return Path(__file__).parent.absolute() / 'data'
@@ -67,6 +61,27 @@ def submit(d):
     f.write(inputText)
     f.close()
     return Response(inputText)
+
+
+@app.route('/post', methods=['POST'])
+def post():
+    CODE = request.form['code']
+    (exe_result, exe_err) = code_exe(CODE)
+    tx = {
+        'publisher': request.form['publisher'],
+        'judge': "JUDGE",
+        'result': exe_result+'\n'+exe_err,
+    }
+    # txをブロックチェーンサイドに渡す
+    return jsonify(tx)
+
+
+def code_exe(src_code):
+    with open("./temp.py", "w", encoding="utf8") as f:
+        f.write(src_code)
+    proc = subprocess.Popen(["python3", "./temp.py"], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    res = proc.communicate()
+    return (res[0].decode("utf8"), res[1].decode("utf8"))
 
 
 def main():
