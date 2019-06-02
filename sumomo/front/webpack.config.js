@@ -5,7 +5,10 @@ module.exports = {
   // development に設定するとソースマップ有効でJSファイルが出力される
   mode: 'development',
   // メインとなるJavaScriptファイル（エントリーポイント）
-  entry: './src/editor.ts',
+  entry: {
+    main: './src/editor.ts',
+    problems: './src/problems.ts',
+  },
 
   output: {
     path: path.join(__dirname, "static/js/"),

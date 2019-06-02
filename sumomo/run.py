@@ -21,14 +21,14 @@ app = Flask(__name__, template_folder='front/static')
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('/index.html')
 
 
 @app.route('/<path:d>')
 def dist(d):
     path = rootPath() / 'p' / d / ('problem.md')
     if path.exists():
-        return render_template('index.html', message=d)
+        return render_template('/index.html', message=d)
     return send_file(f'front/static/{d}')
 
 
@@ -63,16 +63,23 @@ def submit(d):
     return Response(inputText)
 
 
+@app.route('/problem/<path:un>/<path:rn>/<path:bn>/<path:pn>/')
+def open_problem(un, rn, bn, pn):
+    base_url = '/'.join(['https://raw.githubusercontent.com', un, rn, bn, pn])
+    p_url = base_url + '/problem.md'
+    i_url = base_url + '/initial.py'
+    return render_template('/solve.html', p_path=p_url, i_path=i_url)
+
+
 @app.route('/post', methods=['POST'])
 def post():
-    CODE = request.form['code']
+    CODE = request.form['code'].strip()
     (exe_result, exe_err) = code_exe(CODE)
     tx = {
         'publisher': request.form['publisher'],
         'judge': "JUDGE",
         'result': exe_result+'\n'+exe_err,
     }
-    # txをブロックチェーンサイドに渡す
     return jsonify(tx)
 
 
@@ -81,7 +88,8 @@ def code_exe(src_code):
         f.write(src_code)
     proc = subprocess.Popen(["python3", "./temp.py"], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
     res = proc.communicate()
-    return (res[0].decode("utf8"), res[1].decode("utf8"))
+    # os.remove("./temp.py") # This needs "import os"
+    return (res[0].decode("utf8").strip(), res[1].decode("utf8"))
 
 
 def main():

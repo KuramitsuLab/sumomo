@@ -4,7 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" type="text/css" href="/index.css">
+  <link rel="stylesheet" type="text/css" href="/problems.css">
+  <link rel="stylesheet" type="text/css" href="/github-markdown.css">
   <link rel="shortcut icon" href="/image/favicon.ico">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
     integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
@@ -58,16 +59,31 @@
     integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
     crossorigin="anonymous"></script>
 
-  <div class="main">
-    <div class="title">
-      Sumomo
+    <div class="main">
+      <div class="title">
+        問題選択
+      </div>
+      <div id="p_add" class="problem_add">
+        <div class="p_add_form">
+          <div>
+            ユーザ名、レポジトリ名、問題名
+          </div>
+          <form>
+            <input id="userName" type="text" placeholder="Caterpie-poke">
+            <input id="repositoryName" type="text" placeholder="TestProblem">
+            <input id="branchName" type="text" placeholder="master">
+            <input id="problemName" type="text" placeholder="P0">
+            <button id="btn" type="submit">追加</button>
+          </form>
+        </div>
+      </div>
+      <div id="p_select" class="problem_select">
+      </div>
+      <div id="p_option" class="problem_select">
+        <a href="/problem/Caterpie-poke/TestProblem/master/P0">こちら</a>
+        <button id="clear" type="button">クリア</button>
+      </div>
     </div>
-    <div class="about">
-      Sumomoは教育用オンラインジャッジです
-    </div>
-    <div class="link">
-      <a href="/problems.html">問題</a>
-    </div>
-  </div>
+    <script src="/js/problems.js"></script>
 </body>
 </html>
