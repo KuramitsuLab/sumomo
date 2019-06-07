@@ -7,7 +7,6 @@ module.exports = {
   // メインとなるJavaScriptファイル（エントリーポイント）
   entry: {
     main: './src/editor.ts',
-    problems: './src/problems.ts',
   },
 
   output: {
@@ -40,6 +39,7 @@ module.exports = {
       }
     ]
   },
+
   // import 文で .ts ファイルを解決するため
   resolve: {
     modules: [

@@ -5,6 +5,8 @@ import * as python_mode from '../node_modules/ace-builds/src-min-noconflict/mode
 import * as marked from 'marked';
 import * as auth from './auth';
 import web3 from 'web3';
+import 'bootstrap';
+import { strict } from 'assert';
 
 const path = location.pathname;
 const editor = ace.edit('editor');
@@ -33,27 +35,83 @@ const address_getset = '0x9ea80b0A4e112944d0E46e945A4361cB23B3B906';
 const abi_getset = '[{"inputs":[{"name":"_n","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[],"name":"getNum","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_n","type":"uint256"}],"name":"setNum","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"}]';
 const contract_getset = new w3.eth.Contract(JSON.parse(abi_getset), address_getset);
 
-window.addEventListener('load', (e) => {
-  const pURL = document.getElementById('p_path').innerHTML;
-  const iURL = document.getElementById('i_path').innerHTML;
-  $.ajax({
-    url: pURL,
-    type: 'GET',
-  }).done((data) => {
+window.addEventListener('load', () => {
+  fetch('/introduction', {
+    method: 'GET',
+  }).then((res) => {
+    return res.text();
+  }).then((data) => {
     document.getElementById('canvas').innerHTML = marked(data);
-  }).fail((data) => {
-    console.log(data);
-  }).always((data) => {
+  }).catch((err) => {
+    console.log(err);
   });
-  $.ajax({
-    url: iURL,
-    type: 'GET',
-  }).done((data) => {
-    editor.setValue(data);
-  }).fail((data) => {
-    console.log(data);
-  }).always((data) => {
+  fetch('/problem_list', {
+    method: 'GET',
+  }).then((res) => {
+    return res.json();
+  }).then((json) => {
+    const problems = json['data'];
+    // problems is ['Default/ITPP/001', 'Default/ITPP/002', ...]
+    for (let i = 0; i < problems.length; i += 1) {
+      const li = `<li><button id="p-link${i}" type="button">${problems[i]}</button></li>`;
+      document.getElementById('p-list').insertAdjacentHTML('afterbegin', li);
+      document.getElementById(`p-link${i}`).addEventListener('click', () => {
+        fetch(`/init/${problems[i]}`, {
+          method: 'GET',
+        }).then((res) => {
+          return res.json();
+        }).then((data) => {
+          document.getElementById('canvas').innerHTML = marked(data['problem']);
+          editor.setValue(data['code']);
+        }).catch((err) => {
+          console.log(err);
+        });
+        // fetch(`/code/${problems[i]}`, {
+        //   method: 'GET',
+        // }).then((res) => {
+        //   return res.text();
+        // }).then((data) => {
+        //   editor.setValue(data);
+        // }).catch((err) => {
+        //   console.log(err);
+        // });
+      });
+    }
+  }).catch((err) => {
+    console.log(err);
   });
+});
+
+document.getElementById('p-add-button').addEventListener('click', () => {
+  const ghpath = {
+    powner: $('#p-owner-text').val(),
+    pcourse: $('#p-course-text').val(),
+    pid: $('#p-id-text').val(),
+  };
+  console.log('ghpath is', ghpath);
+  fetch('/problem_add', {
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(ghpath),
+  }).then((res) => {
+    return res.json();
+  }).then((data) => {
+    console.log('msg is', data['msg']);
+    if (!data['success']) {
+      alert(data['msg']);
+    } else {
+      location.reload(false);
+    }
+  }).catch((err) => {
+    console.log(err);
+  });
+});
+
+document.getElementById('menu').addEventListener('click', () => {
+  const a = 0;
 });
 
 const git_handler = new auth.GithubHandler();
@@ -121,9 +179,13 @@ document.getElementById('play').addEventListener('click', () => {
   });
 });
 
+// document.getElementById('zoom-in').addEventListener('click', () => {
+//   editor.setFontSize(editor.getFontSize() + 2);
+//   terminal.setFontSize(editor.getFontSize() + 2);
+// });
 document.getElementById('zoom-in').addEventListener('click', () => {
-  editor.setFontSize(editor.getFontSize() + 2);
-  terminal.setFontSize(editor.getFontSize() + 2);
+  console.log(w3.version);
+  console.log(w3.eth.accounts.create('hogehoge'));
 });
 
 document.getElementById('zoom-out').addEventListener('click', () => {

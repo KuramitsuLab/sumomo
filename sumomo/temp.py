@@ -1,1 +1,1 @@
-print("hogehoge")
+404: Not Found

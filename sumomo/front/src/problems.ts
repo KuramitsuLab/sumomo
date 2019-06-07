@@ -12,7 +12,7 @@ window.addEventListener('load', (e) => {
   } else {
     let listHTML = '<ul>';
     const plist = localStorage.getItem('problem_list').split(',');
-    for (let i = 1; i < plist.length; i += 1) {
+    for (let i = plist.length - 1; i > 0; i -= 1) {
       const element = plist[i];
       const baseURL = localStorage.getItem(`prg${element}`);
       listHTML += `<li><a href="${baseURL}">${baseURL}</a></li>`;

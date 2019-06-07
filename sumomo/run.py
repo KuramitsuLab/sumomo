@@ -1,8 +1,9 @@
 from flask import Flask, render_template, send_file, request, Response, jsonify
 from pathlib import Path
+import requests
+# import os
 
 import subprocess
-from subprocess import Popen
 
 def rootPath():
     return Path(__file__).parent.absolute() / 'data'
@@ -21,54 +22,99 @@ app = Flask(__name__, template_folder='front/static')
 
 @app.route('/')
 def index():
-    return render_template('/index.html')
+    return render_template(f'/index.html')
+
+
+@app.route('/problem_list', methods=['GET'])
+def problem_list():
+    ps = ['/'.join(str(p).split('/')[8:-1]) for p in rootPath().glob('**/problem.md')]
+    # ps is ['Default/ITPP/001', 'Default/ITPP/002', ...]
+    return jsonify({'data': ps})
+
+
+@app.route('/introduction', methods=['GET'])
+def intro():
+    return send_file('./intro.md')
+
+
+@app.route('/test')
+def test():
+    return render_template('/test.html')
+
+
+@app.route('/problem_add', methods=['POST'])
+def problem_add():
+    d = request.json
+    if(save(d['powner'], d['pcourse'], d['pid'])):
+        return jsonify({'msg': '問題の追加に成功', 'success': True})
+    else:
+        return jsonify({'msg': '問題の追加に失敗', 'success': False})
+
+
+def save(owner, course, id):
+    try:
+        dir = rootPath() / 'p' / owner / course / id
+        base_url = f'https://raw.githubusercontent.com/{owner}/{course}/master/{id}'
+        p_md = requests.get(f'{base_url}/problem.md').text
+        if p_md.startswith('404: Not Found'):
+            raise Exception
+        c_py = requests.get(f'{base_url}/hint.py').text
+        if '404: Not Found' in c_py:
+            c_py = ''
+        p_path = dir / 'problem.md'
+        c_path = dir / 'hint.py'
+        dir.mkdir(parents=True)
+        with open(p_path, mode='x') as f:
+            f.write(p_md)
+        with open(c_path, mode='x') as f:
+            f.write(c_py)
+    except:
+        return False
+    return True
 
 
 @app.route('/<path:d>')
 def dist(d):
     path = rootPath() / 'p' / d / ('problem.md')
-    if path.exists():
-        return render_template('/index.html', message=d)
+    # if path.exists():
+    #     return render_template('/index.html', message=d)
     return send_file(f'front/static/{d}')
 
 
-'''
-def send_static_file(path1, path2):
-    return send_file(f'front/static/{path1}/{path2}')
-'''
+# def send_static_file(path1, path2):
+#     return send_file(f'front/static/{path1}/{path2}')
 
 
-@app.route('/problem/<path:d>')
-def dist_problem(d):
-    path = rootPath() / 'p' / d / ('problem.md')
-    return send_file(str(path))
+@app.route('/init/<path:d>', methods=['GET'])
+def dist_problem_init(d):
+    p_path = rootPath() / 'p' / d / ('problem.md')
+    c_path = rootPath() / 'p' / d / ('hint.py')
+    with open(p_path, mode='r') as f:
+        pmd = f.read()
+    with open(c_path, mode='r') as f:
+        cpy = f.read()
+    return jsonify({'problem': pmd, 'code': cpy})
+    # return send_file(str(path))
 
 
-@app.route('/code/<path:d>')
-def dist_code(d):
-    file = rootPath() / 'u' / uid() / (d.replace('/', '-') + '.py')
-    if file.exists():
-        return send_file(str(file))
-    path = rootPath() / 'p' / d / ('hint.' + ext())
-    return send_file(str(path))
+# fetch(problem)+fetch(code)だと挙動が怪しい
+# @app.route('/code/<path:d>', methods=['GET'])
+# def dist_code(course, id):
+#     # file = rootPath() / 'u' / uid() / (d.replace('/', '-') + '.py')
+#     # if file.exists():
+#     #     return send_file(str(file))
+#     path = rootPath() / 'p' / d / ('hint.py')
+#     return send_file(str(path))
 
 
-@app.route('/submit/<path:d>', methods=['POST'])
-def submit(d):
-    inputText = request.form['source']
-    file = rootPath() / 'u' / uid() / (d.replace('/', '-') + '.py')
-    f = file.open('w')
-    f.write(inputText)
-    f.close()
-    return Response(inputText)
-
-
-@app.route('/problem/<path:un>/<path:rn>/<path:bn>/<path:pn>/')
-def open_problem(un, rn, bn, pn):
-    base_url = '/'.join(['https://raw.githubusercontent.com', un, rn, bn, pn])
-    p_url = base_url + '/problem.md'
-    i_url = base_url + '/initial.py'
-    return render_template('/solve.html', p_path=p_url, i_path=i_url)
+# @app.route('/submit/<path:d>', methods=['POST'])
+# def submit(d):
+#     inputText = request.form['source']
+#     file = rootPath() / 'u' / uid() / (d.replace('/', '-') + '.py')
+#     f = file.open('w')
+#     f.write(inputText)
+#     f.close()
+#     return Response(inputText)
 
 
 @app.route('/post', methods=['POST'])
@@ -98,3 +144,7 @@ def main():
 
 if __name__ == '__main__':
     main()
+
+
+
+
