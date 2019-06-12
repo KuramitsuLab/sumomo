@@ -129,7 +129,7 @@ document.getElementById('check').addEventListener('click', () => {
     to: address_getset,
     value: '0',
     gas: '2000000',
-    data: contract_getset.methods.setNum(12).encodeABI(),
+    data: contract_getset.methods.setNum(19).encodeABI(),
   },                              me_key).then((signed_tx) => {
     const post_data = {
       jsonrpc: '2.0',
@@ -138,7 +138,8 @@ document.getElementById('check').addEventListener('click', () => {
       id: 3,
     };
     $.ajax({
-      url: 'https://ropsten.infura.io/v3/d1c2ca461bac473fab373d30b3ab432e',
+      // url: 'https://ropsten.infura.io/v3/d1c2ca461bac473fab373d30b3ab432e',
+      url: '/test/set',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(post_data),

@@ -2,8 +2,11 @@ from flask import Flask, render_template, send_file, request, Response, jsonify
 from pathlib import Path
 import requests
 # import os
-
+from eth_account import Account
+# import web3
+from web3 import Web3
 import subprocess
+
 
 def rootPath():
     return Path(__file__).parent.absolute() / 'data'
@@ -18,6 +21,7 @@ def uid():
 
 
 app = Flask(__name__, template_folder='front/static')
+app.config.from_pyfile(Path(__file__).parent / 'eth_params.cfg')
 
 
 @app.route('/')
@@ -39,7 +43,42 @@ def intro():
 
 @app.route('/test')
 def test():
+    acct = Account.create()
+    addr = acct.address
+    key = (acct.privateKey).hex()
+    print(f'address is {addr}\nkey is {key}')
     return render_template('/test.html')
+
+
+@app.route('/test/get')
+def test_get():
+    w3 = Web3(Web3.HTTPProvider(app.config['INFURA_ENDPOINT']))
+    GetSet = w3.eth.contract(abi=app.config['CONTRACT_ABI'])
+    getset = GetSet(address=app.config['CONTRACT_ADDRESS'])
+    res = getset.functions.getNum().call()
+    return f'{res}'
+
+
+@app.route('/test/set')
+def test_set():
+    w3 = Web3(Web3.HTTPProvider(app.config['INFURA_ENDPOINT']))
+    GetSet = w3.eth.contract(abi=app.config['CONTRACT_ABI'])
+    getset = GetSet(address=app.config['CONTRACT_ADDRESS'])
+    me = app.config['TEST_ADDRESS']
+    key = app.config['TEST_KEY']
+    setNum_tx = getset.functions.setNum(334).buildTransaction({
+        'gas': 2000000,
+        'gasPrice': w3.toHex(w3.toWei('6','gwei')),
+        'nonce': w3.eth.getTransactionCount(me),
+    })
+    signed_tx = (w3.eth.account.signTransaction(setNum_tx, private_key=key))
+    hash = w3.eth.sendRawTransaction(signed_tx.rawTransaction)
+    try:
+        receipt = w3.eth.waitForTransactionReceipt(hash, timeout=120)
+        return 'True'
+    except:
+        return 'False'
+    return 'False'
 
 
 @app.route('/problem_add', methods=['POST'])
