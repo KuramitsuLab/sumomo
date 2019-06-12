@@ -184,18 +184,27 @@ document.getElementById('play').addEventListener('click', () => {
 //   editor.setFontSize(editor.getFontSize() + 2);
 //   terminal.setFontSize(editor.getFontSize() + 2);
 // });
+
+// document.getElementById('zoom-out').addEventListener('click', () => {
+//   editor.setFontSize(editor.getFontSize() - 2);
+//   terminal.setFontSize(editor.getFontSize() - 2);
+// });
+
+let x = 100;
 document.getElementById('zoom-in').addEventListener('click', () => {
-  console.log(w3.version);
-  console.log(w3.eth.accounts.create('hogehoge'));
+  x *= 1.2;
+  document.getElementById('editor').style.fontSize = x + '%';
 });
 
 document.getElementById('zoom-out').addEventListener('click', () => {
-  editor.setFontSize(editor.getFontSize() - 2);
-  terminal.setFontSize(editor.getFontSize() - 2);
+  x /= 1.2;
+  document.getElementById('editor').style.fontSize = x + '%';
 });
 
-// document.getElementById('zoom-out').addEventListener('click', () => {
-//   contract_getset.methods.getNum().call().then((data) => {
-//     console.log(data.toNumber());
-//   });
-// });
+$('.tab_label').on('click', function () {
+  const $th = $(this).index();
+  $('.tab_label').removeClass('active');
+  $('.tab_panel').removeClass('active');
+  $(this).addClass('active');
+  $('.tab_panel').eq($th).addClass('active');
+});

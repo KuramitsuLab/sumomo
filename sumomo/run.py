@@ -128,10 +128,14 @@ def dist(d):
 def dist_problem_init(d):
     p_path = rootPath() / 'p' / d / ('problem.md')
     c_path = rootPath() / 'p' / d / ('hint.py')
-    with open(p_path, mode='r') as f:
-        pmd = f.read()
-    with open(c_path, mode='r') as f:
-        cpy = f.read()
+    (pmd, cpy) = ('', '')
+    try:
+        with open(p_path, mode='r') as f:
+            pmd = f.read()
+        with open(c_path, mode='r') as f:
+            cpy = f.read()
+    except Exception as e:
+        print(e)
     return jsonify({'problem': pmd, 'code': cpy})
     # return send_file(str(path))
 

@@ -1,1 +1,2 @@
-404: Not Found
+for i in range(10):
+    print('Sumomo')
