@@ -1,158 +1,135 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <link rel="stylesheet" type="text/css" href="/index.css">
   <link rel="stylesheet" type="text/css" href="/github-markdown.css">
-  <link rel="shortcut icon" href="/image/favicon.ico">
+  <link rel="shortcut icon" href="/image/sumomomo.ico">
+  <script type="text/javascript" src="/js/sumomo.js"></script>
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML' async></script>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/css/bootstrap.min.css"
     integrity="sha384-Smlep5jCw/wG7hdkwQ/Z5nLIefveQRIY9nfy6xoR1uRYBtpZgI6339F5dgvm/e9B" crossorigin="anonymous">
   <title> Sumomo</title>
 </head>
-
 <body>
-
-  <script src="hideShowPassword.min.js"></script>
-
-  <nav class="navbar navbar-expand-lg navbar-light" style="background-color:#FBDADE;">
-    <a class="navbar-brand" href="#"><img src="/image/logo1.png" alt="SumomoLogo" width="40" height="40"></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNav">
-      <ul class="navbar-nav">
-        <li class="nav-item active">
-          <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="Statues.html">Statue</a>1
-        </li>
-
-
-
-        <script>
-          // パスワードの表示・非表示切替
-          $(".toggle-password").click(function () {
-            // iconの切り替え
-            $(this).toggleClass("mdi-eye mdi-eye-off");
-
-            // 入力フォームの取得
-            var input = $(this).parent().prev("input");
-            // type切替
-            if (input.attr("type") == "password") {
-              input.attr("type", "text");
-            } else {
-              input.attr("type", "password");
-            }
-          });
-        </script>
-
-        <label>Resistration</label>
-        <form>
-          <div class="form-group">
-            <label class="control-label" type="id">id</label>
-            <input class="js-pass" type="text" placeholder="id">
-            <br>
-            <label>show password</label>
-            <br>
-            <label class="control-label" type="password">password</label>
-            <input class="js-check" type="password" placeholder="password">
-            <br>
-            <label>show password</label>
+   
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
+        integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
+        crossorigin="anonymous"></script>
+    
+      <body>
+        <div class="flex-list">
+          <div class="flex-item">
+              <div class="container">
+                  <div class="inner">
+            <div id="canvas" class="markdown-body" >
+                
+               
+                    </div>
+                  </div>
           </div>
-          <div class="form-group">
-            <label><button class="btn" type="submit">Login</button></label>
-            <label> <button class="btn" href="resistration.html">Resistration</button></label>
+        </div>
+       
+                <div class="flex-item" >
+                  
+                    <div id="editor" style="margin-right:50px;">
+                      </div>
+              
+                    
+              
+           
+            </div>
+        <div class="flex-sub">
+            <div class="flex-button">
+              <!-- See https://github.com/danklammer/bytesize-icons -->
+              <svg id="menu" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M4 8 L28 8 M4 16 L28 16 M4 24 L28 24" />
+              </svg>
+              <img src="/image/favicon.ico" viewBox="0 0 32 32" width="32">
+              </svg>
+              <svg id="github" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path
+                  d="M22 11 C22 16 19 20 16 20 13 20 10 16 10 11 10 6 12 3 16 3 20 3 22 6 22 11 Z M4 30 L28 30 C28 21 22 20 16 20 10 20 4 21 4 30 Z" />
+              </svg>
+    
+              <svg id="play" class="i-play" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+                <path d="M10 2 L10 30 24 16 Z" />
+              </svg>
+    
+              <svg id="pause" class="i-pause" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
+                <path d="M23 2 L23 30 M9 2 L9 30" />
+              </svg>
+    
+              <svg id="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none"
+                stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                <path d="M2 20 L12 28 30 4" />
+              </svg>
+    
+              <svg id="upload" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" >
+                <path d="M9 22 C0 23 1 12 9 13 6 2 23 2 22 10 32 7 32 23 23 22 M11 18 L16 14 21 18 M16 14 L16 29" />
+              </svg>
+    
+              <svg id="zoom-in" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2" >
+                
+                <circle cx="14" cy="14" r="12" />
+                <path d="M23 23 L30 30" />
+                <path d="M14 10 L14 18 M10 14 L18 14" />
+             
+              </svg>
+             
+              <svg id="zoom-out" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
+                stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+                
+                <circle cx="14" cy="14" r="12" />
+                <path d="M23 23 L30 30" />
+                <path d="M10 14 L18 14" />
+              </svg>
+  
+            </div>
           </div>
-          </from>
-    </div>
-    </ul>
-    </div>
-  </nav>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-    crossorigin="anonymous"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
-    integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.2/js/bootstrap.min.js"
-    integrity="sha384-o+RDsa0aLu++PJvFqy8fFScvbHFLtbvScb8AjopnFD+iEQ7wo/CG0xlczd+2O/em"
-    crossorigin="anonymous"></script>
-
-  <body>
-    <div class="flex-list">
-      <div class="flex-item">
-        <div id="canvas" class="markdown-body">
         </div>
-      </div>
 
-      <div class="flex-item">
-        <div id="editor">
+        <div class="tab_wrap">
+          <div class="tab_area">
+            <label class="tab1_label" for="tab1">出力</label>
+            <label class="tab2_label" for="tab2">入力</label>
+            <label class="tab3_label" for="tab3">コンパイルエラー</label>
+          </div>
+          <div class="panel_area">
+            <div id="panel1" class="tab_panel">
+              <p>panel1</p>
+
+              aaaa
+            </div>
+            <div id="panel2" class="tab_panel">
+              <p>panel2</p>
+
+              nnnnn
+            </div>
+            <div id="panel3" class="tab_panel">
+              <p>panel3</p>
+              vvvv
+            </div>
+          </div>
         </div>
-      </div>
-      <div class="flex-sub">
-        <div class="flex-button">
-          <!-- See https://github.com/danklammer/bytesize-icons -->
-          <svg id="menu" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <path d="M4 8 L28 8 M4 16 L28 16 M4 24 L28 24" />
-          </svg>
 
-          <svg id="github" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <path
-              d="M22 11 C22 16 19 20 16 20 13 20 10 16 10 11 10 6 12 3 16 3 20 3 22 6 22 11 Z M4 30 L28 30 C28 21 22 20 16 20 10 20 4 21 4 30 Z" />
-          </svg>
+        <script src="/js/main.js"></script>
 
-          <svg id="play" class="i-play" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-            <path d="M10 2 L10 30 24 16 Z" />
-          </svg>
-
-          <svg id="pause" class="i-pause" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-            <path d="M23 2 L23 30 M9 2 L9 30" />
-          </svg>
-
-          <svg id="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none"
-            stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <path d="M2 20 L12 28 30 4" />
-          </svg>
-
-          <svg id="reload" class="i-reload" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-            <path d="M29 16 C29 22 24 29 16 29 8 29 3 22 3 16 3 10 8 3 16 3 21 3 25 6 27 9 M20 10 L27 9 28 2" />
-          </svg>
-
-          <svg id="upload" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <path d="M9 22 C0 23 1 12 9 13 6 2 23 2 22 10 32 7 32 23 23 22 M11 18 L16 14 21 18 M16 14 L16 29" />
-          </svg>
-
-          <svg id="zoom-in" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <circle cx="14" cy="14" r="12" />
-            <path d="M23 23 L30 30" />
-            <path d="M14 10 L14 18 M10 14 L18 14" />
-          </svg>
-
-          <svg id="zoom-out" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <circle cx="14" cy="14" r="12" />
-            <path d="M23 23 L30 30" />
-            <path d="M10 14 L18 14" />
-          </svg>
-
-        </div>
-      </div>
-    </div>
-    <script src="/js/main.js"></script>
-  </body>
-
-</html>
-
-</html>
+      </body>
+    
+    </html>
+    
+    </html>

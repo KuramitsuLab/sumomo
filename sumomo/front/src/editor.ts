@@ -41,17 +41,34 @@ document.getElementById('github').addEventListener('click', () => {
 let x = 100;
 
 document.getElementById('zoom-in').addEventListener('click', () => {
-  { x *= 1.2; document.getElementById('editor').style.fontSize = x + '%'; }
+  { x <= 100; x *= 1.2;  document.getElementById('editor').style.fontSize = x + '%';
+  }
 });
 
 document.getElementById('zoom-out').addEventListener('click', () => {
-  { x /= 1.2; document.getElementById('editor').style.fontSize = x + '%'; }
-
+  { x >= 2000; x /= 1.2; document.getElementById('editor').style.fontSize = x + '%'; }
 });
+
 $('.tab_label').on('click', function () {
   const $th = $(this).index();
   $('.tab_label').removeClass('active');
   $('.tab_panel').removeClass('active');
   $(this).addClass('active');
   $('.tab_panel').eq($th).addClass('active');
+});
+
+const a = document.createElement('a');
+a.href = 'data:text/plain,' + encodeURIComponent('test text\n');
+a.download = 'test.txt';
+
+a.style.display = 'none';
+document.body.appendChild(a); // ※ DOM が構築されてからでないとエラーになる
+a.click();
+document.body.removeChild(a);
+
+import splitJs from 'split.js';
+
+Split(['.two-vertical-split .top', '.two-vertical-split .bottom'], {
+  direction: 'vertical',
+  minSize: [50, 50],
 });
