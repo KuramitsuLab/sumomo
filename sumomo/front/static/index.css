@@ -31,6 +31,10 @@ html, body {
   background-color: #FBDADE;
 }
 
+.top {
+  width: 96%;
+}
+
 .flex-list {
   display: flex;
   flex-wrap: nowrap;
@@ -38,8 +42,8 @@ html, body {
 
 .flex-item {
   display: block;
-  flex: 0 0 48%;
-  max-width: 48%; /* IE11バグ対応 */
+  /* flex: 0 0 48%; */
+  /* max-width: 48%; */
   background-color: white;
   /*text-align: center;*/
 }
@@ -87,6 +91,39 @@ html, body {
 }
 
 
+.split {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.split.split-horizontal {
+    height: 100%;
+    float: left;
+}
+
+.gutter {
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-vertical {
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    cursor: ns-resize;
+}
+
+.gutter.gutter-horizontal {
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: ew-resize;
+}
+
+.gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+}
+
+
 @media (max-width: 640px) {
   .flex-list {
     display: none;
@@ -96,58 +133,8 @@ html, body {
       margin: 20px auto 0;
       text-align: center;
   }
-  .flex-item {
-    flex: 0 0 100%;
-    max-width: 100%;
-    /* text-align: center; */
-  }
-  #canvas{
-      position: center;
-      width: 95%;
-      height: calc(100vw*0.95);
-      background-color: "white";
-      margin: 0 auto;
-  }
-  #editor{
-      position: center;
-      width: 95%;
-      height: 300px;
-      background-color: #FFCCFF;
-      font-size: calc(100vw / 45);
-      text-align: left;
-      margin: 0 auto;
-  }
-
 }
 
-#canvas:-webkit-full-screen{
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
-#canvas:-moz-full-screen {
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
-#canvas:-ms-fullscreen {
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
-#canvas:fullscreen {
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
 
 div.flex-button img {
   float: left;
@@ -167,4 +154,3 @@ svg {
 .i-medium,
 .i-small { max-width: 50em; margin: 0 auto 2em }
 
-/* 登録フォーム */

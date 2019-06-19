@@ -7,15 +7,21 @@ import * as auth from './auth';
 import web3 from 'web3';
 import 'bootstrap';
 import { strict } from 'assert';
+import splitJs from 'split.js';
 
 const path = location.pathname;
+
+splitJs(['.two-horizontal-split .left', '.two-horizontal-split .right'], {
+  sizes: [50, 50],
+  minSize: [200, 200],
+});
+
 const editor = ace.edit('editor');
 new python_mode.Mode();
 editor.setOptions({
   fontSize: 18,
   wrap: true,
   mode: 'ace/mode/python',
-  // theme: 'solarized_light',
 });
 
 const terminal = ace.edit('terminal');
@@ -84,9 +90,9 @@ window.addEventListener('load', () => {
 
 document.getElementById('p-add-button').addEventListener('click', () => {
   const ghpath = {
-    powner: $('#p-owner-text').val(),
-    pcourse: $('#p-course-text').val(),
-    pid: $('#p-id-text').val(),
+    powner: document.getElementById('p-owner-text')['value'],
+    pcourse: document.getElementById('p-course-text')['value'],
+    pid: document.getElementById('p-id-text')['value'],
   };
   console.log('ghpath is', ghpath);
   fetch('/problem_add', {
@@ -123,7 +129,6 @@ document.getElementById('reload').addEventListener('click', () => {
   location.reload(true);
 });
 
-// web3.js test code
 document.getElementById('check').addEventListener('click', () => {
   w3.eth.accounts.signTransaction({
     to: address_getset,
