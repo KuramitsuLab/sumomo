@@ -16,6 +16,12 @@ splitJs(['.two-horizontal-split .left', '.two-horizontal-split .right'], {
   minSize: [200, 200],
 });
 
+splitJs(['.two-vertical-split .top', '.two-vertical-split .bottom'], {
+  direction: 'vertical',
+  sizes: [50, 50],
+  // minSize: [50, 50],
+});
+
 const editor = ace.edit('editor');
 new python_mode.Mode();
 editor.setOptions({
@@ -33,6 +39,17 @@ terminal.setOptions({
   showGutter: false,
 });
 terminal.setValue('');
+
+const tabs = document.getElementsByClassName('tab_item');
+const panels = document.getElementsByClassName('panel_item');
+for (let i = 0; i < tabs.length; i += 1) {
+  tabs[i].addEventListener('click', () => {
+    document.getElementsByClassName('tab_item active')[0].classList.remove('active');
+    document.getElementsByClassName('panel_item active')[0].classList.remove('active');
+    tabs[i].classList.add('active');
+    panels[i].classList.add('active');
+  });
+}
 
 const me = '0xfB0FD0CC0Db58095a331c23C14305689d6A22119';
 const me_key = '0x8076A20DF3A0C75DA5E66559A8EBFD95986A28CB57F2CFA1106C9BC8F7E903C2';
@@ -206,10 +223,11 @@ document.getElementById('zoom-out').addEventListener('click', () => {
   document.getElementById('editor').style.fontSize = x + '%';
 });
 
-$('.tab_label').on('click', function () {
-  const $th = $(this).index();
-  $('.tab_label').removeClass('active');
-  $('.tab_panel').removeClass('active');
-  $(this).addClass('active');
-  $('.tab_panel').eq($th).addClass('active');
-});
+// const a = document.createElement('a');
+// a.href = 'data:text/plain,' + encodeURIComponent('test text\n');
+// a.download = 'test.txt';
+
+// a.style.display = 'none';
+// document.body.appendChild(a); // ※ DOM が構築されてからでないとエラーになる
+// a.click();
+// document.body.removeChild(a);

@@ -31,10 +31,6 @@ html, body {
   background-color: #FBDADE;
 }
 
-.top {
-  width: 96%;
-}
-
 .flex-list {
   display: flex;
   flex-wrap: nowrap;
@@ -102,6 +98,17 @@ html, body {
     float: left;
 }
 
+.two-horizontal-split {
+  width: 96%;
+}
+
+.two-vertical-split {
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
 .gutter {
   background-color: #eee;
   background-repeat: no-repeat;
@@ -154,3 +161,91 @@ svg {
 .i-medium,
 .i-small { max-width: 50em; margin: 0 auto 2em }
 
+
+.tab_wrap{
+  display: block;
+  width:100%;
+  /* margin:0px auto; */
+}
+.tab_area{
+  font-size:0;
+  margin:0 10px;
+  /* position: absolute; */
+  /* left:20px; */
+}
+.tab_area label{
+  width:150px;
+  margin:5px;
+  display:inline-block;
+  padding:12px 0;
+  color:black;
+  background: pink;
+  text-align:center;
+  font-size:13px;
+  cursor:pointer;
+  transition:ease 0.2s opacity;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.tab_area label:hover{
+  opacity:0.5;
+}
+.tab_area label.active{
+  background: #fff;
+  color: #000;
+}
+.tab_item{
+  width:100%;
+  padding:80px 0;
+}
+
+.panel_area{
+  display: flex;
+  background:#fff;
+  width: 100%;
+  height: 50px;
+}
+.panel_item {
+  display: none;
+  width: 80%;
+}
+.active {
+  display: inline;
+  border: #000 solid;
+}
+
+
+.markdown-body {
+  margin-left:50px;
+  margin-right:50px;
+  margin-top:3s0px;
+  height: 700px;
+  width:300px;
+  padding: 20px;
+
+}
+
+
+/*スクロールバー全体*/
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/*スクロールバーの軌道*/
+::-webkit-scrollbar-track {
+border-radius: 10px;
+box-shadow: inset 0 0 6px rgba(0, 0, 0, .1);
+}
+
+/*スクロールバーの動く部分*/
+::-webkit-scrollbar-thumb {
+background-color: rgba(0, 0, 50, .5);
+border-radius: 10px;
+box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
+}
+
+.container{
+width: 100%;
+height: 700px;
+overflow: auto;
+}

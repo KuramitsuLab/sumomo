@@ -20,7 +20,7 @@ def uid():
     return 'kkuramitsu'
 
 
-app = Flask(__name__, template_folder='front/static')
+app = Flask(__name__, template_folder='front/static', static_folder='data')
 app.config.from_pyfile(Path(__file__).parent / 'eth_params.cfg')
 
 
@@ -112,11 +112,15 @@ def save(owner, course, id):
     return True
 
 
+@app.route('/img/<path:d>')
+def post_img_to_marked(d):
+    path = rootPath() / 'p' / d
+    return send_file(f'{path}')
+
+
 @app.route('/<path:d>')
 def dist(d):
-    path = rootPath() / 'p' / d / ('problem.md')
-    # if path.exists():
-    #     return render_template('/index.html', message=d)
+    path = rootPath() / 'p' / d
     return send_file(f'front/static/{d}')
 
 
