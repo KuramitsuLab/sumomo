@@ -58,23 +58,16 @@ const address_getset = '0x9ea80b0A4e112944d0E46e945A4361cB23B3B906';
 const abi_getset = '[{"inputs":[{"name":"_n","type":"uint256"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"constant":true,"inputs":[],"name":"getNum","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_n","type":"uint256"}],"name":"setNum","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"}]';
 const contract_getset = new w3.eth.Contract(JSON.parse(abi_getset), address_getset);
 
+// ページ読み込み時に起動する処理
+// TODO: MVCの分離
 window.addEventListener('load', () => {
-  fetch('/introduction', {
-    method: 'GET',
-  }).then((res) => {
-    return res.text();
-  }).then((data) => {
-    document.getElementById('canvas').innerHTML = marked(data);
-  }).catch((err) => {
-    console.log(err);
-  });
   fetch('/problem_list', {
     method: 'GET',
   }).then((res) => {
     return res.json();
   }).then((json) => {
+    // ['Default/ITPP/001', 'Default/ITPP/002', ...]みたいな配列が返される
     const problems = json['data'];
-    // problems is ['Default/ITPP/001', 'Default/ITPP/002', ...]
     for (let i = 0; i < problems.length; i += 1) {
       const li = `<li><button id="p-link${i}" type="button">${problems[i]}</button></li>`;
       document.getElementById('p-list').insertAdjacentHTML('afterbegin', li);
@@ -89,6 +82,7 @@ window.addEventListener('load', () => {
         }).catch((err) => {
           console.log(err);
         });
+        // 問題とコードを別々にfetchしようとしたらなぜかできなかった
         // fetch(`/code/${problems[i]}`, {
         //   method: 'GET',
         // }).then((res) => {
@@ -105,6 +99,7 @@ window.addEventListener('load', () => {
   });
 });
 
+// 問題追加ボタンのクリックイベント
 document.getElementById('p-add-button').addEventListener('click', () => {
   const ghpath = {
     powner: document.getElementById('p-owner-text')['value'],
@@ -134,7 +129,6 @@ document.getElementById('p-add-button').addEventListener('click', () => {
 });
 
 document.getElementById('menu').addEventListener('click', () => {
-  const a = 0;
 });
 
 const git_handler = new auth.GithubHandler();
@@ -147,38 +141,9 @@ document.getElementById('reload').addEventListener('click', () => {
 });
 
 document.getElementById('check').addEventListener('click', () => {
-  w3.eth.accounts.signTransaction({
-    to: address_getset,
-    value: '0',
-    gas: '2000000',
-    data: contract_getset.methods.setNum(19).encodeABI(),
-  },                              me_key).then((signed_tx) => {
-    const post_data = {
-      jsonrpc: '2.0',
-      method: 'eth_sendRawTransaction',
-      params: [signed_tx['rawTransaction']],
-      id: 3,
-    };
-    $.ajax({
-      // url: 'https://ropsten.infura.io/v3/d1c2ca461bac473fab373d30b3ab432e',
-      url: '/test/set',
-      type: 'POST',
-      contentType: 'application/json',
-      data: JSON.stringify(post_data),
-    }).done((receipt) => {
-      console.log('receipt is', receipt);
-    }).fail((data) => {
-      console.log('POST Faile:', data);
-      // Error handling is necessary
-    }).always((data) => {
-    });
-  });
 });
 
 document.getElementById('upload').addEventListener('click', () => {
-  contract_getset.methods.getNum().call().then((data) => {
-    console.log(data.toNumber());
-  });
 });
 
 document.getElementById('play').addEventListener('click', () => {
@@ -202,15 +167,6 @@ document.getElementById('play').addEventListener('click', () => {
   });
 });
 
-// document.getElementById('zoom-in').addEventListener('click', () => {
-//   editor.setFontSize(editor.getFontSize() + 2);
-//   terminal.setFontSize(editor.getFontSize() + 2);
-// });
-
-// document.getElementById('zoom-out').addEventListener('click', () => {
-//   editor.setFontSize(editor.getFontSize() - 2);
-//   terminal.setFontSize(editor.getFontSize() - 2);
-// });
 
 let x = 100;
 document.getElementById('zoom-in').addEventListener('click', () => {
@@ -222,6 +178,7 @@ document.getElementById('zoom-out').addEventListener('click', () => {
   x /= 1.2;
   document.getElementById('editor').style.fontSize = x + '%';
 });
+
 
 // const a = document.createElement('a');
 // a.href = 'data:text/plain,' + encodeURIComponent('test text\n');

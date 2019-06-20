@@ -36,11 +36,7 @@ def problem_list():
     return jsonify({'data': ps})
 
 
-@app.route('/introduction', methods=['GET'])
-def intro():
-    return send_file('./intro.md')
-
-
+# test, test/get, test/set はEthereumとの通信のテスト
 @app.route('/test')
 def test():
     acct = Account.create()
