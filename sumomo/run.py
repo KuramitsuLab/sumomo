@@ -6,8 +6,10 @@
 # comment out
 # from pegpy.origami.arare import compile
 
-from flask import Flask, render_template, send_file, request, Response
+from flask import Flask, render_template, send_file, request, Response, jsonify
 from pathlib import Path
+import subprocess
+from subprocess import Popen
 
 
 def rootPath():
@@ -59,14 +61,25 @@ def dist_code(d):
     return send_file(str(path))
 
 
-@app.route('/submit/<path:d>', methods=['POST'])
-def submit(d):
-    inputText = request.form['source']
-    file = rootPath() / 'u' / uid() / (d.replace('/', '-') + '.py')
-    f = file.open('w')
-    f.write(inputText)
-    f.close()
-    return Response(inputText)
+@app.route('/submit', methods=['POST'])
+def submit():
+    posted_json = request.json
+    # file = rootPath() / 'u' / uid() / (d.replace('/', '-') + '.py')
+    file = './temp.py'
+    with open(file, mode='w') as f:
+        f.write(posted_json['source'])
+    res = execute(file)
+    json = {
+        'stdout': res[0].decode("utf8"),
+        'stderr': res[1].decode("utf8"),
+    }
+    return jsonify(json)
+
+
+def execute(fp):
+    proc = subprocess.Popen(["python3", f'{fp}'], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+    res = proc.communicate()
+    return res
 
 
 def main():
