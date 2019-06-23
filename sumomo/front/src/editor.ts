@@ -1,16 +1,29 @@
 import * as $ from 'jquery';
 import * as ace from '../node_modules/ace-builds/src-min-noconflict/ace.js';
-import * as solarized_light from '../node_modules/ace-builds/src-min-noconflict/theme-solarized_light.js';
+// import * as solarized_light from '../node_modules/ace-builds/src-min-noconflict/theme-solarized_light.js';
 import * as python_mode from '../node_modules/ace-builds/src-min-noconflict/mode-python.js';
 import * as marked from 'marked';
 import * as auth from './auth';
+import splitJs from 'split.js';
 /* editor */
 
 const path = location.pathname;
+
+splitJs(['.two-horizontal-split .left', '.two-horizontal-split .right'], {
+  sizes: [50, 50],
+  minSize: [200, 200],
+});
+
+splitJs(['.two-vertical-split .top', '.two-vertical-split .bottom'], {
+  direction: 'vertical',
+  sizes: [50, 50],
+  // minSize: [50, 50],
+});
+
 const editor = ace.edit('editor');
 // editor.setTheme(solarized_light);
 editor.getSession().setMode(new python_mode.Mode());
-editor.getSession().setUseWrapMode(true); /* 折り返しあり */
+editor.getSession().setUseWrapMode(false); /* 折り返しなし, splitで横幅自由のため */
 editor.setFontSize(18);
 
 window.addEventListener('load', (e) => {
@@ -57,18 +70,11 @@ $('.tab_label').on('click', function () {
   $('.tab_panel').eq($th).addClass('active');
 });
 
-const a = document.createElement('a');
-a.href = 'data:text/plain,' + encodeURIComponent('test text\n');
-a.download = 'test.txt';
+// const a = document.createElement('a');
+// a.href = 'data:text/plain,' + encodeURIComponent('test text\n');
+// a.download = 'test.txt';
 
-a.style.display = 'none';
-document.body.appendChild(a); // ※ DOM が構築されてからでないとエラーになる
-a.click();
-document.body.removeChild(a);
-
-import splitJs from 'split.js';
-
-Split(['.two-vertical-split .top', '.two-vertical-split .bottom'], {
-  direction: 'vertical',
-  minSize: [50, 50],
-});
+// a.style.display = 'none';
+// document.body.appendChild(a); // ※ DOM が構築されてからでないとエラーになる
+// a.click();
+// document.body.removeChild(a);
