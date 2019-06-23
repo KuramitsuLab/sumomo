@@ -20,9 +20,15 @@
     box-sizing: border-box;
 }
 
-html {
+html, body {
   font-family: /*-apple-system, BlinkMacSystemFont,*/ "Hiragino Kaku Gothic ProN", MyYuGothicM, Meiryo, sans-serif;
   font-size: 16px;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.navbar.navbar-expand-sm {
+  background-color: #FBDADE;
 }
 
 .flex-list {
@@ -31,8 +37,9 @@ html {
 }
 
 .flex-item {
-  flex: 0 0 48%;
-  max-width: 48%; /* IE11バグ対応 */
+  display: block;
+  /* flex: 0 0 48%; */
+  /* max-width: 48%; */
   background-color: white;
   /*text-align: center;*/
 }
@@ -49,76 +56,92 @@ html {
 }
 
 #canvas{
-    position: center;
-    width: calc(100vw/2);
-    height: calc(100vw/2);
-    background-color: white;
-    margin: 0 auto;
+  position: center;
+  width: calc(100vw/2);
+  height: calc(100vw/2);
+  background-color: white;
+  margin: 0 auto;
+  box-sizing: border-box;
 }
+
 #editor{
-    position: center;
-    width: 100%;
-    height: 92%;
-    /* font-size: calc(100vw / 45); */
-    text-align: left;
-    background-color: #fef4f4;
-    margin: 0 auto;
+  width: 100%;
+  height: 70%;
+  /* font-size: calc(100vw / 45); */
+  text-align: left;
+  background-color: #fef4f4;
+  margin: 0 auto;
+}
+
+#terminal{
+  width: 100%;
+  height: 30%;
+  text-align: left;
+  background-color: #202020;
+  color: #fef4f4;
+  margin: 0 auto;
+}
+
+.too-small {
+  display: none;
 }
 
 
-@media (max-width: 800px) {
-  .flex-item {
-    flex: 0 0 100%;
-    max-width: 100%;
-    text-align: center;
+.split {
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.split.split-horizontal {
+    height: 100%;
+    float: left;
+}
+
+.two-horizontal-split {
+  width: 96%;
+}
+
+.two-vertical-split {
+  height: 100%;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+
+.gutter {
+  background-color: #eee;
+  background-repeat: no-repeat;
+  background-position: 50%;
+}
+
+.gutter.gutter-vertical {
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
+    cursor: ns-resize;
+}
+
+.gutter.gutter-horizontal {
+    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
+    cursor: ew-resize;
+}
+
+.gutter.gutter-horizontal {
+    height: 100%;
+    float: left;
+}
+
+
+@media (max-width: 640px) {
+  .flex-list {
+    display: none;
   }
-  #canvas{
-      position: center;
-      width: 95%;
-      height: calc(100vw*0.95);
-      background-color: "white";
-      margin: 0 auto;
+  .too-small {
+      display: block;
+      margin: 20px auto 0;
+      text-align: center;
   }
-  #editor{
-      position: center;
-      width: 79%;
-      height: 300px;
-      background-color: #FFCCFF;
-      font-size: calc(100vw / 45);
-      text-align: left;
-      margin: 0 auto;
-  } 
-  
 }
 
-#canvas:-webkit-full-screen{
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
-#canvas:-moz-full-screen {
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
-#canvas:-ms-fullscreen {
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
-#canvas:fullscreen {
-	position : absolute ;
-	left     : 0 ;
-	top      : 0 ;
-	width    : 100% ;
-	height   : 100% ;
-}
 
 div.flex-button img {
   float: left;
@@ -139,16 +162,58 @@ svg {
 .i-small { max-width: 50em; margin: 0 auto 2em }
 
 
-.tab_wrap{width:500px; margin:0px auto;}
-.tab_area{font-size:0; margin:0 10px;position: absolute;left:20px;}
-.tab_area label{width:150px; margin:5px; display:inline-block; padding:12px 0; color:black; background: pink; text-align:center; font-size:13px; cursor:pointer; transition:ease 0.2s opacity;border-top-left-radius: 10px;border-top-right-radius: 20px;}
-.tab_area label:hover{opacity:0.5;}
-.panel_area{background:#fff;}
-.tab_panel{width:100%; padding:80px 0; display:none;}
-.tab_panel p{font-size:14px; letter-spacing:1px; text-align:center;}
- 
-.tab_area label.active{background:#fff; color:#000;}
-.tab_panel.active{display:block;}
+.tab_wrap{
+  display: block;
+  width:100%;
+  /* margin:0px auto; */
+}
+.tab_area{
+  font-size:0;
+  margin:0 10px;
+  /* position: absolute; */
+  /* left:20px; */
+}
+.tab_area label{
+  width:150px;
+  margin:5px;
+  display:inline-block;
+  padding:12px 0;
+  color:black;
+  background: pink;
+  text-align:center;
+  font-size:13px;
+  cursor:pointer;
+  transition:ease 0.2s opacity;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
+}
+.tab_area label:hover{
+  opacity:0.5;
+}
+.tab_area label.active{
+  background: #fff;
+  color: #000;
+}
+.tab_item{
+  width:100%;
+  padding:80px 0;
+}
+
+.panel_area{
+  display: flex;
+  background:#fff;
+  width: 100%;
+  height: 50px;
+}
+.panel_item {
+  display: none;
+  width: 80%;
+}
+.active {
+  display: inline;
+  border: #000 solid;
+}
+
 
 .markdown-body {
   margin-left:50px;
@@ -183,54 +248,4 @@ box-shadow:0 0 0 1px rgba(255, 255, 255, .3);
 width: 100%;
 height: 700px;
 overflow: auto;
-}
-
-/* 分割のスタイル */
-.split {
-  box-sizing: border-box;
-  overflow-y: auto;
-  overflow-x: hidden;
-
-  &.split-horizontal {
-    height: 100%;
-    float: left;
-  }
-
-}
-
-/* 仕切りのスタイル*/
-.gutter {
-  background-color: #eee;
-  background-repeat: no-repeat;
-  background-position: 50%;
-
-  &.gutter-vertical {
-    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAB4AAAAFAQMAAABo7865AAAABlBMVEVHcEzMzMzyAv2sAAAAAXRSTlMAQObYZgAAABBJREFUeF5jOAMEEAIEEFwAn3kMwcB6I2AAAAAASUVORK5CYII=');
-    cursor: ns-resize;
-  }
-
-  &.gutter-horizontal {
-    background-image:  url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAeCAYAAADkftS9AAAAIklEQVQoU2M4c+bMfxAGAgYYmwGrIIiDjrELjpo5aiZeMwF+yNnOs5KSvgAAAABJRU5ErkJggg==');
-    cursor: ew-resize;
-  }
-
-  &.gutter-horizontal {
-    height: 100%;
-    float: left;
-  }
-
-}
-
-.two-vertical-split {
-  height: 250px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-
-  .top {
-   
-  }
-
-  .bottom {
-   
-  }
 }
