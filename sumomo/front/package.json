@@ -25,7 +25,7 @@
     "jquery": "^3.4.1",
     "marked": "^0.6.2",
     "mathjax": "^2.7.5",
-    "popper": "^1.0.1",
+    "popper.js": "^1.15.0",
     "split.js": "^1.5.11",
     "tslint-config-airbnb": "^5.11.1"
   }

@@ -33,10 +33,11 @@
       <div class="flex-sub">
         <div class="flex-button">
           <!-- See https://github.com/danklammer/bytesize-icons -->
-          <svg id="menu" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
-            <path d="M4 8 L28 8 M4 16 L28 16 M4 24 L28 24" />
-          </svg>
+          <a href="" data-toggle="modal" data-target="#problemsModal">
+            <svg id="menu" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
+              <path d="M4 8 L28 8 M4 16 L28 16 M4 24 L28 24" />
+            </svg>
+          </a>
 
           <img src="/image/favicon.ico" viewBox="0 0 32 32" width="32">
 
@@ -108,6 +109,32 @@
     </div>
   </div>
 
+  <!-- problemsModal -->
+  <div class="modal fade" id="problemsModal" tabindex="-1" role="dialog" aria-labelledby="problemsModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="problemsModalLabel">問題選択</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="problem-add">
+            <input id="p-owner-text" type="text" placeholder="問題作成者">
+            <input id="p-course-text" type="text" placeholder="コース名">
+            <input id="p-id-text" type="text" placeholder="問題番号">
+            <button id="p-add-button" type="button">追加</button>
+          </div>
+          <div class="problem-list">
+            <ul id="p-list"></ul>
+          </div>
+        </div>
+        <div class="modal-footer"></div>
+      </div>
+    </div>
+  </div>
 
   <script src="/js/main.js"></script>
 </body>

@@ -5,6 +5,7 @@ import * as python_mode from '../node_modules/ace-builds/src-min-noconflict/mode
 import * as marked from 'marked';
 import * as auth from './auth';
 import splitJs from 'split.js';
+import 'bootstrap';
 /* editor */
 
 const path = location.pathname;
@@ -68,6 +69,26 @@ $('.tab_label').on('click', function () {
   $('.tab_panel').removeClass('active');
   $(this).addClass('active');
   $('.tab_panel').eq($th).addClass('active');
+});
+
+document.getElementById('play').addEventListener('click', () => {
+  const code_data = {
+    publisher: 'Me',
+    source: editor.getValue(),
+  };
+  fetch('/submit', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(code_data),
+  }).then((res) => {
+    return res.json();
+  }).then((data) => {
+    console.log(data);
+  }).catch((err) => {
+    console.log(err);
+  });
 });
 
 // const a = document.createElement('a');
