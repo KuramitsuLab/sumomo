@@ -1,2 +1,3 @@
 sumomo/front/node_modules/
-sumomo/data/
+sumomo/data/p/*
+!sumomo/data/p/Default

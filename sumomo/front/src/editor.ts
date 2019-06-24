@@ -27,9 +27,32 @@ editor.getSession().setMode(new python_mode.Mode());
 editor.getSession().setUseWrapMode(false); /* 折り返しなし, splitで横幅自由のため */
 editor.setFontSize(18);
 
-window.addEventListener('load', (e) => {
+window.addEventListener('load', () => {
+  fetch('/problem_list_default', {
+    method: 'GET',
+  }).then((res) => {
+    return res.json();
+  }).then((json) => {
+    const lis = json['data'];
+    for (let i = 0; i < lis.length; i += 1) {
+      document.getElementById('p-init').insertAdjacentHTML('beforeend', lis[i]);
+    }
+  });
+  fetch('/problem_list_downloads', {
+    method: 'GET',
+  }).then((res) => {
+    return res.json();
+  }).then((json) => {
+    const lis = json['data'];
+    for (let i = 0; i < lis.length; i += 1) {
+      document.getElementById('p-downloads').insertAdjacentHTML('beforeend', lis[i]);
+    }
+  });
+});
+
+window.addEventListener('hashchange', (e) => {
   $.ajax({
-    url: `/problem${path}`,
+    url: `/problem/${location.hash.slice(1)}`,
     type: 'GET',
   }).done((data) => {
     document.getElementById('canvas').innerHTML = marked(data);
@@ -38,7 +61,7 @@ window.addEventListener('load', (e) => {
   }).always((data) => {
   });
   $.ajax({
-    url: `/code${path}`,
+    url: `/code/${location.hash.slice(1)}`,
     type: 'GET',
   }).done((data) => {
     editor.setValue(data);
@@ -52,6 +75,27 @@ const git_handler = new auth.GithubHandler();
 document.getElementById('github').addEventListener('click', () => {
   git_handler.singin();
 });
+
+document.getElementById('p-add-button').addEventListener('click', () => {
+  const ghpath = {
+    powner: document.getElementById('p-owner-text')['value'],
+    pcourse: document.getElementById('p-course-text')['value'],
+  };
+  fetch('/problem_add', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(ghpath),
+  }).then((res) => {
+    return res.text();
+  }).then((data) => {
+    location.reload(false);
+  }).catch((err) => {
+    console.log(err);
+  });
+});
+
 let x = 100;
 
 document.getElementById('zoom-in').addEventListener('click', () => {
