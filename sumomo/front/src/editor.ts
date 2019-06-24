@@ -76,22 +76,26 @@ $('.tab_label').on('click', function () {
 });
 
 document.getElementById('play').addEventListener('click', () => {
-  const code_data = {
-    problem: path,
-    source: editor.getValue(),
-  };
-  fetch('/submit', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(code_data),
-  }).then((res) => {
-    return res.json();
-  }).then((data) => {
-    console.log(JSON.stringify(data));
-  }).catch((err) => {
-    console.log(err);
+  $.ajax({
+    url: '/submit',
+    type: 'POST',
+    dataType: 'json',
+    contentType: 'application/json',
+    data: JSON.stringify({
+      problem: path,
+      source: editor.getValue(),
+    }),
+  }).done((data) => {
+    const doc = document.getElementById('output');
+    doc.innerHTML = marked(data);
+    console.log(data.responseText);
+    // MathJax.Hub.Queue(["Typeset", MathJax.Hub, doc]);
+  }).fail((data) => {
+    console.log(data);
+  }).always((data) => {
+    const doc = document.getElementById('output');
+    doc.innerHTML = marked(data.responseText);
+    console.log(data.responseText);
   });
 });
 

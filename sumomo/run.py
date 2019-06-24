@@ -8,6 +8,7 @@
 
 from flask import Flask, render_template, send_file, request, Response, jsonify
 from pathlib import Path
+import json
 from subprocess import STDOUT, check_output
 
 
@@ -112,12 +113,17 @@ def judge(output, problem='ITPP/01A', testCase=1):
 
 @app.route('/submit', methods=['POST'])
 def submit():
+    data = request.data
     posted_json = request.json
-    print(posted_json)
     source = posted_json['source']
     problem = posted_json['problem']
     output = run_sumomo(source, problem)
-    return Response(output)
+    with open("output.txt", "w", encoding="utf8") as f:
+        f.write('#' + problem + '\n')
+        f.write('```\n')
+        f.write(output)
+        f.write('\n```\n')
+    return send_file("output.txt")
 
 
 def main():
