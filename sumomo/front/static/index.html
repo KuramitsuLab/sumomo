@@ -39,7 +39,7 @@
             </svg>
           </a>
 
-          <img src="/image/favicon.ico" viewBox="0 0 32 32" width="32">
+          <a href="/"><img src="/image/favicon.ico" viewBox="0 0 32 32" width="32"></a>
 
           <svg id="github" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
             stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
@@ -122,13 +122,17 @@
         </div>
         <div class="modal-body">
           <div class="problem-add">
-            <input id="p-owner-text" type="text" placeholder="問題作成者">
-            <input id="p-course-text" type="text" placeholder="コース名">
-            <input id="p-id-text" type="text" placeholder="問題番号">
+            <input id="p-owner-text" type="text" placeholder="Githubユーザ名">
+            <input id="p-course-text" type="text" placeholder="レポジトリ名">
             <button id="p-add-button" type="button">追加</button>
           </div>
           <div class="problem-list">
-            <ul id="p-list"></ul>
+            <ul id="p-list">
+              <li>初期問題</li>
+              <ul id="p-init"></ul>
+              <li>ダウンロード問題</li>
+              <ul id="p-downloads"></ul>
+            </ul>
           </div>
         </div>
         <div class="modal-footer"></div>

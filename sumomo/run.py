@@ -82,6 +82,41 @@ def execute(fp):
     return res
 
 
+@app.route('/problem_add', methods=['POST'])
+def problem_add():
+    d = request.json
+    un, rn = d['powner'], d['pcourse']
+    url = f'https://github.com/{un}/{rn}.git'
+    cmd = ['git', 'clone', url, f'./data/p/{un}/{rn}']
+    proc = subprocess.Popen(cmd)
+    res = proc.communicate()
+    return '問題を追加したかも'
+
+
+@app.route('/problem_list_default', methods=['GET'])
+def problem_list_default():
+    p_path = rootPath() / 'p' / 'Default'
+    ps_default = ['/'.join(str(p).split('/')[-4:-1]) for p in p_path.glob('**/problem.md')]
+    lis = [f'<li><a class="p-link" href="#{p}">{p}</a></li>' for p in ps_default]
+    return jsonify({'data': lis})
+
+
+@app.route('/problem_list_downloads', methods=['GET'])
+def problem_list_downloads():
+    p_path = rootPath() / 'p' / 'Default'
+    ps_default = ['/'.join(str(p).split('/')[-4:-1]) for p in p_path.glob('**/problem.md')]
+    ps_all = ['/'.join(str(p).split('/')[-4:-1]) for p in rootPath().glob('**/problem.md')]
+    ps_downloads = list(set(ps_all) - set(ps_default))
+    lis = [f'<li><a class="p-link" href="#{p}">{p}</a></li>' for p in ps_downloads]
+    return jsonify({'data': lis})
+
+
+@app.route('/img/<path:d>')
+def post_img_to_marked(d):
+    path = rootPath() / 'p' / d
+    return send_file(f'{path}')
+
+
 def main():
     app.run(host='0.0.0.0', port=8080, debug=True)
 
