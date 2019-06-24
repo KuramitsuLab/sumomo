@@ -8,12 +8,11 @@
 
 from flask import Flask, render_template, send_file, request, Response, jsonify
 from pathlib import Path
-import subprocess
-from subprocess import Popen
+from subprocess import STDOUT, check_output
 
 
-def rootPath():
-    return Path(__file__).parent.absolute() / 'data'
+def rootPath(subdir='data'):
+    return Path(__file__).parent.absolute() / subdir
 
 
 def ext():
@@ -61,25 +60,64 @@ def dist_code(d):
     return send_file(str(path))
 
 
+# subprocess
+# copied from judge.py
+
+
+def getInputFile(problem='ITPP/01A', testCase=1):
+    path = rootPath(f'data/p/{problem}/{testCase}in.txt')
+    return str(path) if path.exists() else None
+
+
+def getOutputFile(problem='ITPP/01A', testCase=1):
+    path = rootPath(f'data/p/{problem}/{testCase}out.txt')
+    return str(path) if path.exists() else None
+
+
+testFile = '''
+n = int(input())
+print(n**3)
+'''
+
+# プログラムを実行して 実行結果をえる
+
+
+def run_sumomo(submitted, problem='ITPP/01A', testCase=1):
+    # submitted されたソースコードを保存する
+    with open("./temp.py", "w", encoding="utf8") as f:
+        f.write(submitted)
+    #output = check_output(["python3", "./temp.py"], stderr=STDOUT, timeout=10)
+    infile = getInputFile(problem, testCase)
+    output = check_output(f'python3 ./temp.py < {infile}',
+                          shell=True, stderr=STDOUT, timeout=10)
+    return output.decode("utf8")
+
+# 実行結果とサンプルデータを比較する
+
+
+def judge(output, problem='ITPP/01A', testCase=1):
+    with open(getOutputFile(problem, testCase), "r", encoding="utf8") as f:
+        exampled = f.read().split('\n')
+    tested = [line for line in output.split('\n') if not line.startswith('@')]
+    res = 'AC'
+    for t in zip(exampled, tested):
+        if t[0] != t[1]:
+            print('YOU', t[0])
+            print('ME ', t[1])
+            res = 'WA'
+    return res
+
+
+##
+
 @app.route('/submit', methods=['POST'])
 def submit():
     posted_json = request.json
-    # file = rootPath() / 'u' / uid() / (d.replace('/', '-') + '.py')
-    file = './temp.py'
-    with open(file, mode='w') as f:
-        f.write(posted_json['source'])
-    res = execute(file)
-    json = {
-        'stdout': res[0].decode("utf8"),
-        'stderr': res[1].decode("utf8"),
-    }
-    return jsonify(json)
-
-
-def execute(fp):
-    proc = subprocess.Popen(["python3", f'{fp}'], stderr=subprocess.PIPE, stdout=subprocess.PIPE)
-    res = proc.communicate()
-    return res
+    print(posted_json)
+    source = posted_json['source']
+    problem = posted_json['problem']
+    output = run_sumomo(source, problem)
+    return Response(output)
 
 
 def main():

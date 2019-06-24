@@ -6,6 +6,7 @@ import * as marked from 'marked';
 import * as auth from './auth';
 import splitJs from 'split.js';
 import 'bootstrap';
+
 /* editor */
 
 const path = location.pathname;
@@ -17,7 +18,7 @@ splitJs(['.two-horizontal-split .left', '.two-horizontal-split .right'], {
 
 splitJs(['.two-vertical-split .top', '.two-vertical-split .bottom'], {
   direction: 'vertical',
-  sizes: [50, 50],
+  sizes: [85, 15],
   // minSize: [50, 50],
 });
 
@@ -32,7 +33,9 @@ window.addEventListener('load', (e) => {
     url: `/problem${path}`,
     type: 'GET',
   }).done((data) => {
-    document.getElementById('canvas').innerHTML = marked(data);
+    const doc = document.getElementById('canvas');
+    doc.innerHTML = marked(data);
+    // MathJax.Hub.Queue(["Typeset", MathJax.Hub, doc]);
   }).fail((data) => {
     console.log(data);
   }).always((data) => {
@@ -55,7 +58,8 @@ document.getElementById('github').addEventListener('click', () => {
 let x = 100;
 
 document.getElementById('zoom-in').addEventListener('click', () => {
-  { x <= 100; x *= 1.2;  document.getElementById('editor').style.fontSize = x + '%';
+  {
+    x <= 100; x *= 1.2; document.getElementById('editor').style.fontSize = x + '%';
   }
 });
 
@@ -73,7 +77,7 @@ $('.tab_label').on('click', function () {
 
 document.getElementById('play').addEventListener('click', () => {
   const code_data = {
-    publisher: 'Me',
+    problem: path,
     source: editor.getValue(),
   };
   fetch('/submit', {
@@ -85,7 +89,7 @@ document.getElementById('play').addEventListener('click', () => {
   }).then((res) => {
     return res.json();
   }).then((data) => {
-    console.log(data);
+    console.log(JSON.stringify(data));
   }).catch((err) => {
     console.log(err);
   });
