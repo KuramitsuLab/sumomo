@@ -40,12 +40,6 @@ def dist(d):
     return send_file(f'front/static/{d}')
 
 
-'''
-def send_static_file(path1, path2):
-    return send_file(f'front/static/{path1}/{path2}')
-'''
-
-
 @app.route('/problem/<path:d>')
 def dist_problem(d):
     path = rootPath() / 'p' / d / ('problem.md')
@@ -119,7 +113,7 @@ def submit():
     problem = posted_json['problem']
     output = run_sumomo(source, problem)
     with open("output.txt", "w", encoding="utf8") as f:
-        f.write('#' + problem + '\n')
+        f.write('# ' + problem + '\n')
         f.write('```\n')
         f.write(output)
         f.write('\n```\n')

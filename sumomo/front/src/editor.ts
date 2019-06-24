@@ -16,11 +16,11 @@ splitJs(['.two-horizontal-split .left', '.two-horizontal-split .right'], {
   minSize: [200, 200],
 });
 
-splitJs(['.two-vertical-split .top', '.two-vertical-split .bottom'], {
-  direction: 'vertical',
-  sizes: [85, 15],
-  // minSize: [50, 50],
-});
+// splitJs(['.two-vertical-split .top', '.two-vertical-split .bottom'], {
+//   direction: 'vertical',
+//   sizes: [85, 15],
+//   // minSize: [50, 50],
+// });
 
 const editor = ace.edit('editor');
 // editor.setTheme(solarized_light);
@@ -76,6 +76,9 @@ $('.tab_label').on('click', function () {
 });
 
 document.getElementById('play').addEventListener('click', () => {
+  const doc = document.getElementById('canvas');
+  // const problem doc.innerHTML += marked(data.responseText);
+
   $.ajax({
     url: '/submit',
     type: 'POST',
@@ -86,16 +89,16 @@ document.getElementById('play').addEventListener('click', () => {
       source: editor.getValue(),
     }),
   }).done((data) => {
-    const doc = document.getElementById('output');
     doc.innerHTML = marked(data);
     console.log(data.responseText);
     // MathJax.Hub.Queue(["Typeset", MathJax.Hub, doc]);
   }).fail((data) => {
     console.log(data);
   }).always((data) => {
-    const doc = document.getElementById('output');
-    doc.innerHTML = marked(data.responseText);
-    console.log(data.responseText);
+    doc.innerHTML += marked(data.responseText);
+    console.log(doc.scrollTop);
+    console.log(doc.scrollHeight);
+    doc.scrollTop = doc.scrollHeight;
   });
 });
 

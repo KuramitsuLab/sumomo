@@ -68,11 +68,6 @@
             <path d="M10 2 L10 30 24 16 Z" />
           </svg>
 
-          <svg id="pause" class="i-pause" viewBox="0 0 32 32" width="32" height="32" fill="none" stroke="currentcolor"
-            stroke-linecap="round" stroke-linejoin="round" stroke-width="3">
-            <path d="M23 2 L23 30 M9 2 L9 30" />
-          </svg>
-
           <svg id="check" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" width="32" height="32" fill="none"
             stroke="currentcolor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2">
             <path d="M2 20 L12 28 30 4" />
@@ -100,62 +95,8 @@
       </div>
     </div>
 
-    <div class="gutter gutter-vertical"></div>
-
-    <div class="tab_wrap bottom split split-vertical">
-      <div id="output" class="markdown-body">
-      </div>
-
-      <!--
-      <div class="tab_area">
-        <label class="tab1_label" for="tab1">出力</label>
-        <label class="tab2_label" for="tab2">入力</label>
-        <label class="tab3_label" for="tab3">コンパイルエラー</label>
-      </div>
-      <div class="panel_area">
-        <div id="panel1" class="tab_panel">
-          <p>panel1</p>
-          aaaa
-        </div>
-        <div id="panel2" class="tab_panel">
-          <p>panel2</p>
-          nnnnn
-        </div>
-        <div id="panel3" class="tab_panel">
-          <p>panel3</p>
-          vvvv
-        </div>
-      </div>
-        -->
-    </div>
   </div>
 
-  <!-- problemsModal -->
-  <div class="modal fade" id="problemsModal" tabindex="-1" role="dialog" aria-labelledby="problemsModalLabel"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="problemsModalLabel">問題選択</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-          <div class="problem-add">
-            <input id="p-owner-text" type="text" placeholder="問題作成者">
-            <input id="p-course-text" type="text" placeholder="コース名">
-            <input id="p-id-text" type="text" placeholder="問題番号">
-            <button id="p-add-button" type="button">追加</button>
-          </div>
-          <div class="problem-list">
-            <ul id="p-list"></ul>
-          </div>
-        </div>
-        <div class="modal-footer"></div>
-      </div>
-    </div>
-  </div>
 
   <script src="/js/main.js"></script>
 </body>
